@@ -1,0 +1,6 @@
+﻿services:
+  festify:
+    image: festify
+    build:
+      context: .
+      dockerfile: Dockerfile
