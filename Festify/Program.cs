@@ -30,8 +30,9 @@ try
     builder.Services.AddSwaggerGen();
 
     var app = builder.Build();
+    app.UseFestifyModule(app.Configuration, app.Environment);
 
-    app.UseSwaggerBuilder(builder.Environment);
+    // app.UseSwaggerBuilder(builder.Environment);
 
 // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())

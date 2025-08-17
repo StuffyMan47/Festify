@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using Application.Constants;
 using Application.Enums;
 using Application.Interfaces.Settings;
@@ -63,6 +64,7 @@ public class JwtTokenService(IFestifySettings settings) : IJwtTokenService
     public string GenerateAcceesToken(GenerateTokenRequest request)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
+        byte[] key = Encoding.ASCII.GetBytes(settings.AuthSettings.ApiSecret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new(new[]
@@ -72,6 +74,7 @@ public class JwtTokenService(IFestifySettings settings) : IJwtTokenService
                 new Claim(TokenClaimKeys.Login, request.Login),
             }),
             Expires = DateTime.UtcNow.AddMinutes(int.Parse(settings.AuthSettings.TokenLifetimeMinutes)),
+            SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
         var token = tokenHandler.CreateToken(tokenDescriptor);
 

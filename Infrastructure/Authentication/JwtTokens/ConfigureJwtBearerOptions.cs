@@ -1,14 +1,17 @@
 using System.Net;
 using System.Security.Claims;
+using System.Text;
 using Application.Extensions;
 using Application.Extensions.ActionResult;
+using Application.Interfaces.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Authentication.JwtTokens;
 
-public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions>
+public class ConfigureJwtBearerOptions(IFestifySettings settings) : IConfigureNamedOptions<JwtBearerOptions>
 {
     public void Configure(JwtBearerOptions options)
     {
@@ -20,11 +23,14 @@ public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions
         if (name != JwtBearerDefaults.AuthenticationScheme)
             return;
         
+        byte[] key = Encoding.ASCII.GetBytes(settings.AuthSettings.ApiSecret);
+
         options.RequireHttpsMetadata = false;
         options.SaveToken = true;
         options.TokenValidationParameters = new()
         {
             ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
             ValidateIssuer = false,
             ValidateLifetime = true,
             ValidateAudience = false,

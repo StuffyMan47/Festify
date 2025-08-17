@@ -4,9 +4,11 @@ using Application.Interfaces.Settings;
 using Application.Services.UserContext;
 using Infrastructure.Authentication;
 using Infrastructure.DAL;
+using Infrastructure.SecurityHeaders;
 using Infrastructure.Services;
 using Infrastructure.Swagger;
 using Infrastructure.Validation;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,5 +36,14 @@ public static class Startup
         services.RegisterServicesByInterfaces(assemblies);
         services.AddSwaggerBuilder();
         return await Task.FromResult(services);
+    }
+    
+    public static IApplicationBuilder UseFestifyModule(this IApplicationBuilder app, IConfiguration config, IWebHostEnvironment environment)
+    {
+        app.UseFestifyAuth();
+        app.UseSwaggerBuilder(environment);
+        app.UseSecurityHeaders(config);
+
+        return app;
     }
 }

@@ -3,6 +3,7 @@ using Application.Interfaces.TokenService;
 using Infrastructure.Authentication.JwtTokens;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +31,7 @@ public static class Startup
         return services;
     }
 
-    internal static IApplicationBuilder UseFesifyAuth(this IApplicationBuilder app)
+    internal static IApplicationBuilder UseFestifyAuth(this IApplicationBuilder app)
     {
         app.UseAuthentication();
         app.UseAuthorization();
