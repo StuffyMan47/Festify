@@ -1,3 +1,4 @@
+using Application.UseCase.Place.AddPlace;
 using Application.UseCase.User.CreateUser;
 using Application.UseCase.User.GenerateToken;
 using Application.UseCase.User.Login;
@@ -14,6 +15,7 @@ public static class Startup
         services.AddScoped<CreateUserUseCase>();
         services.AddScoped<GenerateTokenUseCase>();
         services.AddScoped<RefreshTokenUseCase>();
+        services.AddScoped<CreatePlaceUseCase>();
         
         return services;
     }

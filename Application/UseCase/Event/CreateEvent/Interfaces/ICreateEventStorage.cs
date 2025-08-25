@@ -5,5 +5,5 @@ namespace Application.UseCase.Event.CreateEvent.Interfaces;
 
 public interface ICreateEventStorage : IScopedService
 {
-    public Task CreateEvent(CreateEventRequest request);
+    Task CreateEvent(CreateEventRequest request, Guid userId);
 }

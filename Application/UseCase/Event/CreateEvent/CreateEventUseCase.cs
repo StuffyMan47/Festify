@@ -9,7 +9,8 @@ public class CreateEventUseCase(ICreateEventStorage storage, IUserContextProvide
 {
     public async Task<Result> CreateEvent(CreateEventRequest request)
     {
-        await storage.CreateEvent(request);
+        var currentUser = userProvider.GetUserContext();
+        await storage.CreateEvent(request, currentUser.Id);
 
         return Result.Success();
     }
