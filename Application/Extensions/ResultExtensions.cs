@@ -1,5 +1,6 @@
 using Application.Extensions.ActionResult;
 using Application.Models;
+using Application.Models.PaginatedModels;
 
 namespace Application.Extensions;
 
